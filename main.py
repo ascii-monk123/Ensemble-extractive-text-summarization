@@ -1,6 +1,8 @@
 import re
 
 import pandas as pd
+import nltk
+import ssl
 
 from textacy import preprocessing as prep
 
@@ -8,6 +10,16 @@ from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
 from rouge import Rouge
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+nltk.download("punkt")
+nltk.download("stopwords")
 
 
 def replace_dots(text):

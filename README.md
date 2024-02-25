@@ -33,4 +33,7 @@ jupyter notebook
 - Click on the Proposed Solution.ipynb file
 - When it is opened, run all the cells together or one after another
 
-### Note: Please make sure you have selected the "ensemble_kernel" in Proposed Solution.ipynb
+### In case of any error:
+
+- Please make sure you have selected the "ensemble_kernel" in Proposed Solution.ipynb
+- Restart the kernel
