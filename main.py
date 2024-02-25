@@ -1,19 +1,13 @@
 import re
-import spacy
+
 import pandas as pd
-import nltk
-from nltk import sent_tokenize, word_tokenize
-from nltk.tokenize.punkt import PunktSentenceTokenizer
+
 from textacy import preprocessing as prep
-from spacy.lang.en.stop_words import STOP_WORDS
+
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
 from rouge import Rouge
-
-
-nltk.download("punkt")
-nltk.download("stopwords")
 
 
 def replace_dots(text):

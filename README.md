@@ -28,4 +28,9 @@ pip install jupyter
 
 jupyter notebook
 
+### Further steps:
+
+- Click on the Proposed Solution.ipynb file
+- When it is opened, run all the cells together or one after another
+
 ### Note: Please make sure you have selected the "ensemble_kernel" in Proposed Solution.ipynb
