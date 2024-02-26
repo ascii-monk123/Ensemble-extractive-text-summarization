@@ -80,9 +80,9 @@ def avg_rouge(df, col1, col2, col3):
         avg_r2 += df[col2].iloc[i]["r"]
         avg_rL += df[col3].iloc[i]["r"]
 
-    avg_r1 = round(avg_r1 / n, 2)
-    avg_r2 = round(avg_r2 / n, 2)
-    avg_rL = round(avg_rL / n, 2)
+    avg_r1 = avg_r1 / n
+    avg_r2 = avg_r2 / n
+    avg_rL = avg_rL / n
 
     # return the average rouge scores
     return avg_r1, avg_r2, avg_rL
