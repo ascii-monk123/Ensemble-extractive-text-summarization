@@ -1,15 +1,14 @@
 import re
-
 import pandas as pd
 import nltk
 import ssl
 
 from textacy import preprocessing as prep
-
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
 from rouge import Rouge
+from nltk.tokenize.punkt import PunktSentenceTokenizer
 
 try:
     _create_unverified_https_context = ssl._create_unverified_context
@@ -96,26 +95,14 @@ def isSentenceInParagraph(sentence, paragraph):
     return 0
 
 
-def generate_ensemble_summary(row):
+def generate_ensemble_summary(
+    row, lsa_weight, lexrank_weight, luhn_weight, sum_basic_weight
+):
     text_score_dict = {}
-    list_of_sentences_text = row["text"].split(".")
-    total_rogue_l_score = (
-        row["rouge-l_lsa"]["r"]
-        + row["rouge-l_lexrank"]["r"]
-        + row["rouge-l_luhn"]["r"]
-        + row["rouge-l_sum_basic"]["r"]
-        + row["rouge-l_text_rank"]["r"]
-    )
-
-    lsa_weight = row["rouge-l_lsa"]["r"] / total_rogue_l_score
-    lexrank_weight = row["rouge-l_lexrank"]["r"] / total_rogue_l_score
-    luhn_weight = row["rouge-l_luhn"]["r"] / total_rogue_l_score
-    sum_basic_weight = row["rouge-l_sum_basic"]["r"] / total_rogue_l_score
-    text_rank_weight = row["rouge-l_text_rank"]["r"] / total_rogue_l_score
+    tokenizer = PunktSentenceTokenizer()
+    list_of_sentences_text = tokenizer.tokenize(row["text"])
 
     for sentence in list_of_sentences_text:
-        if sentence == " " or sentence == ' "':
-            continue
 
         text_score_dict[sentence] = (
             (isSentenceInParagraph(sentence, row["lsa_summary"]) * lsa_weight)
@@ -124,10 +111,6 @@ def generate_ensemble_summary(row):
             + (
                 isSentenceInParagraph(sentence, row["sum_basic_summary"])
                 * sum_basic_weight
-            )
-            + (
-                isSentenceInParagraph(sentence, row["text_rank_summary"])
-                * text_rank_weight
             )
         )
 
